@@ -618,11 +618,15 @@ public class SecondaryChooserFragment extends android.app.DialogFragment {
      * to change the main working directory of chooser.
      */
     public void setBundlePathOnUpdate() {
-        if (mConfig.isResumeSession() && StorageChooser.LAST_SESSION_PATH != null) {
-            if (StorageChooser.LAST_SESSION_PATH.startsWith(Environment.getExternalStorageDirectory().getAbsolutePath())) {
+        if (mConfig.isResumeSession() && theSelectedPath != null) {
+            if (theSelectedPath.startsWith(Environment.getExternalStorageDirectory().getAbsolutePath())) {
                 mBundlePath = Environment.getExternalStorageDirectory().getAbsolutePath();
             } else {
-                mBundlePath = StorageChooser.LAST_SESSION_PATH.substring(StorageChooser.LAST_SESSION_PATH.indexOf("/", 16), StorageChooser.LAST_SESSION_PATH.length());
+                for(File volume : new File("/storage").listFiles()) {
+                    if (FileUtil.isOperationalVolume(volume) && theSelectedPath.startsWith(volume.getAbsolutePath())) {
+                        mBundlePath = volume.getAbsolutePath();
+                    }
+                }
             }
         }
     }

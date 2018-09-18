@@ -38,11 +38,20 @@ public class FileUtil {
         return dirNames;
     }
 
+
+    public static boolean isOperationalVolume(File f) {
+        return f.isDirectory() && !f.getName().equals(MemoryUtil.SELF_DIR_NAME)
+                && !f.getName().equals(MemoryUtil.EMULATED_DIR_KNOX)
+                && !f.getName().equals(MemoryUtil.EMULATED_DIR_NAME)
+                && !f.getName().equals(MemoryUtil.SDCARD0_DIR_NAME)
+                && !f.getName().equals(MemoryUtil.CONTAINER);
+    }
+
     /**
      * Removes non-operationaal directories which are either used by only the system or
      * not used by anyone
      */
-    public void removeNonOperational(List<File> volumeList) {
+    public static void removeNonOperational(List<File> volumeList) {
         // segregate the list
 
         for (int i = 0; i < volumeList.size(); i++) {
